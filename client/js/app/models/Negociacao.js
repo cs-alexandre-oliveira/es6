@@ -1,24 +1,25 @@
 class Negociacao {
   /* Quando utilizado o Underline a propriedade fica exclusiva para acesso da Classe */
   constructor(data, quantidade, valor) {
-    this._data = data;
+    this._data = new Date(data.getTime());
     this._quantidade = quantidade;
     this._valor = valor;
+    Object.freeze(this);
   }
   /* Quando uma Function é chamada dentro de uma Classe ela é chamada de Método*/
-  getVolume() {
+  get volume() {
     return this._quantidade * this._valor;
   }
-
-  getData() {
-    return this._data;
+/* validação com New Date bloqueia a data de receber valores externos*/
+  get data() {
+    return new Date(this._data.getTime());
   }
 
-  getQuantidade() {
+  get quantidade() {
     return this._quantidade;
   }
 
-  getValor() {
+  get valor() {
     return this._valor;
   }
 }
