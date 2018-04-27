@@ -1,17 +1,20 @@
 class NegociacaoController {
 
-    adiciona(event) {
-        event.preventDefault();
-
-        /*bind é utilizado para continuar a relação do documento com o Método querySelector */
+    constructor() {
+/*bind é utilizado para continuar a relação do documento com o Método querySelector */
         let $ = document.querySelector.bind(document);
         
-        let inputData = $('#data');
-        let inputQuantidade = $('#quantidade');
-        let inputValor = $('#valor');
+        this._inputData = $('#data');
+        this._inputQuantidade = $('#quantidade');
+        this._inputValor = $('#valor');
 
-        console.log(inputData.value);
-        console.log(inputQuantidade.value);
-        console.log(inputValor.value);
+    }
+
+    adiciona(event) {
+        event.preventDefault();
+        
+        console.log(this._inputData.value);
+        console.log(this._inputQuantidade.value);
+        console.log(this._inputValor.value);
     }
 }
