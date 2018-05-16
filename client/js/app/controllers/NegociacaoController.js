@@ -25,6 +25,23 @@ class NegociacaoController {
         this._mensagem.texto = 'Negociação adicionada com sucesso'; 
         this._limpaFormulario();   
     }
+
+    importaNegociacoes() {
+
+      let service = new NegociacaoService();
+
+      service.obterNegociacaoDaSemana((err, negociacoes) => {
+        if(err)  {
+          this._mensagem.texto = err;
+          return;
+        }
+
+        negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));  //forEach vai percorrer item por item criado no novo array criado pelo 'map.'
+        this._mensagem.texto = 'Negociações importadas com S U C E S S O !!!!!! '
+
+      });
+
+    } 
     
     apaga() {
         
