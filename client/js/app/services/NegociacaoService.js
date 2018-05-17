@@ -1,24 +1,52 @@
 class NegociacaoService {
-  obterNegociacaoDaSemana(cb) {
 
-    let xhr = new XMLHttpRequest();
+  constructor() {
+    this._http = new HttpService();
+  }
 
-    xhr.open('GET', 'negociacoes/semana');
+  obterNegociacaoDaSemana() {
 
-    xhr.onreadystatechange = () => {
+    return new Promise((resolve, reject)  =>  {
+      this._http
+          .get('negociacoes/semana')
+          .then(negociacao  =>  {
+            resolve(negociacao.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)));
+          })
+          .catch(erro =>  {
+            console.log(erro);
+            reject('Não foi possivel obter negociações da semana')
+          });
+    });
 
-      if (xhr.readyState == 4) {
-        if (xhr.status == 200) {
+  }
+  obterNegociacaoDaSemanaAnterior() {
 
-          cb(null, JSON.parse(xhr.responseText) //JSON.parse converte o texto em um Array de Objeto JavaScript
-            .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)));// a função 'map.' varrerá o array e criará um novo com modificações.
-        } else {
-          console.log(xhr.responseText);
-          cb('Não foi possivel obter as negociações!!!', null);
-        }
-      }
-    };
-    xhr.send();
+    return new Promise((resolve, reject)  =>  {
+      this._http
+          .get('negociacoes/anterior')
+          .then(negociacao  =>  {
+            resolve(negociacao.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)));
+          })
+          .catch(erro =>  {
+            console.log(erro);
+            reject('Não foi possivel obter negociações da semana anterior')
+          });
+    });
+
+  }
+  obterNegociacaoDaSemanaRetrasada() {
+
+    return new Promise((resolve, reject)  =>  {
+      this._http
+          .get('negociacoes/retrasada')
+          .then(negociacao  =>  {
+            resolve(negociacao.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)));
+          })
+          .catch(erro =>  {
+            console.log(erro);
+            reject('Não foi possivel obter negociações da semana retrasada')
+          });
+    });
 
   }
 }

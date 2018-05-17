@@ -30,16 +30,17 @@ class NegociacaoController {
 
       let service = new NegociacaoService();
 
-      service.obterNegociacaoDaSemana((err, negociacoes) => {
-        if(err)  {
-          this._mensagem.texto = err;
-          return;
-        }
-
-        negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));  //forEach vai percorrer item por item criado no novo array criado pelo 'map.'
-        this._mensagem.texto = 'Negociações importadas com S U C E S S O !!!!!! '
-
-      });
+      Promise.all([
+        service.obterNegociacaoDaSemana(),
+        service.obterNegociacaoDaSemanaAnterior(),
+        service.obterNegociacaoDaSemanaRetrasada()]
+      ).then(negociacoes => {
+        negociacoes
+          .reduce((ArrayAchatado, array)  =>  ArrayAchatado.concat(array), [])
+          .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+        this._mensagem.texto = 'Negociações importadas com Sucesso!!!!!!';
+      })
+      .catch(erro => this._mensagem.texto = erro);
 
     } 
     
