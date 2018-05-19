@@ -8,6 +8,7 @@
 </head>
 <body>
   <script src="js/app/models/Negociacao.js"></script>
+  <script src="js/app/services/ConnectionFactory.js"></script>
   <script>
     var connection;
 
@@ -67,7 +68,7 @@
       if(atual)  {
         let dado = atual.value;
 
-        negociacao.push(new Negociacao(dado._data, dado._quantidade, dado._valor));
+        negociacoes.push(new Negociacao(dado._data, dado._quantidade, dado._valor));
 
         atual.continue();
       } else {
@@ -81,6 +82,17 @@
 
   }
   
+  ConnectionFactory
+    .getConnection()
+    .then(connection => {
+      //usa a conexão
+    });
+
+  ConnectionFactory
+    .getConnection()
+    .then(connection => {
+      //a conexão tem que ser a mesma utilizada anteriormente
+    });
 
   </script>
   
